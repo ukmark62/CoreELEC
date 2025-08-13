@@ -4,8 +4,8 @@
 # Copyright (C) 2024-present Team CoreELEC (https://coreelec.org)
 
 PKG_NAME="linux"
-PKG_VERSION="11e6faaaff96beeb17f8f892afcd58d5037dadf0"
-PKG_SHA256="f49af8684ed5c8a028db35db3543438bdf6bee4cda5ba8e2530c7b19d4afa988"
+PKG_VERSION="bed560897f09afda6f9ce3ddb4c47013f1982b1e"
+PKG_SHA256="caffd67b07b046e923cdc0c3978d7689076eacb5b83019db1bd4b6ac1d3072b8"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kernel.org"
 PKG_URL="https://github.com/CoreELEC/linux-amlogic/archive/${PKG_VERSION}.tar.gz"
@@ -79,10 +79,8 @@ post_patch() {
   else
     cp ${PKG_KERNEL_CFG_FILE} ${PKG_BUILD}/.config
 
-    sed -i -e "s|@INITRAMFS_SOURCE@|$(kernel_initramfs_confs) ${BUILD}/initramfs|" ${PKG_BUILD}/.config
-
     # set default hostname based on ${DISTRONAME}
-      sed -i -e "s|@DISTRONAME@|${DISTRONAME}|g" ${PKG_BUILD}/.config
+    sed -i -e "s|@DISTRONAME@|${DISTRONAME}|g" ${PKG_BUILD}/.config
 
     # disable swap support if not enabled
     if [ ! "${SWAP_SUPPORT}" = yes ]; then
@@ -290,7 +288,7 @@ make_target() {
   fi
 
   if [ "${BUILD_ANDROID_BOOTIMG}" = "yes" ]; then
-    find_file_path bootloader/mkbootimg && source ${FOUND_PATH}
+    find_file_path bootloader/mkbootimg && source ${FOUND_PATH} initramfs
     mv -f arch/${TARGET_KERNEL_ARCH}/boot/boot.img arch/${TARGET_KERNEL_ARCH}/boot/${KERNEL_TARGET}
   fi
 
