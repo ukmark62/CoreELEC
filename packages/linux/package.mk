@@ -30,8 +30,8 @@ case "${LINUX}" in
     PKG_PATCH_DIRS="raspberrypi rtlwifi/6.13 rtlwifi/6.14 rtlwifi/6.15 rtlwifi/6.17"
     ;;
   rockchip)
-    PKG_VERSION="76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c" # 6.17-rc5
-    PKG_SHA256="b2ff7ef05755dadd0cfc526ef59ec80954a89ec6dc71e978ea09cb0420551950"
+    PKG_VERSION="07e27ad16399afcd693be20211b0dfae63e0615f" # 6.17-rc7
+    PKG_SHA256="098609cc94a84dd05e1054d43f9a7c335a61edb06093d4f23bcdefa7be24c1ec"
     PKG_URL="https://github.com/chewitt/linux/archive/${PKG_VERSION}.tar.gz"
     PKG_SOURCE_NAME="linux-${LINUX}-${PKG_VERSION}.tar.gz"
     PKG_PATCH_DIRS="default rockchip rtlwifi/6.17"
@@ -145,14 +145,6 @@ pre_make_target() {
   if [ ! "${SAMBA_SUPPORT}" = yes ]; then
     ${PKG_BUILD}/scripts/config --disable CONFIG_CIFS
   fi
-
-  # enable/disable iscsi support
-  [ "${ISCSI_SUPPORT}" = yes ] && OPTION="--enable" || OPTION="--disable"
-  ${PKG_BUILD}/scripts/config ${OPTION} CONFIG_SCSI_ISCSI_ATTRS
-  ${PKG_BUILD}/scripts/config ${OPTION} CONFIG_ISCSI_TCP
-  ${PKG_BUILD}/scripts/config ${OPTION} CONFIG_ISCSI_BOOT_SYSFS
-  ${PKG_BUILD}/scripts/config ${OPTION} CONFIG_ISCSI_IBFT_FIND
-  ${PKG_BUILD}/scripts/config ${OPTION} CONFIG_ISCSI_IBFT
 
   # disable wireguard support if not enabled
   if [ ! "${WIREGUARD_SUPPORT}" = yes ]; then
